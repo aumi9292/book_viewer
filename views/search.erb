@@ -1,0 +1,25 @@
+<h2 class="content-subhead">Search</h2>
+
+<form action="/search" method="get">
+  <input name="query" value="<%= params[:query] %>">
+  <button type="submit">Search</button>
+
+  <% unless params[:query].nil? || params[:query].empty? %>
+    <h3>Results for <%= "#{params[:query]}" %> </h3>
+    <ul>
+      <%= "Sorry, no matches were found" if @matches.empty? %>
+      <% idx = 0 %>
+      <% @matches.each do |chp, lines|%>
+        <h2><%= @toc[chp - 1] %></h2>
+        <% lines.each do |line| %> 
+          <li>
+          <a href=<%= "http://www.localhost:4567/chapters/#{chp}##{@ids[idx]}"%>>
+            <%= bold_search(params[:query], line) %>
+          </a> 
+        </li>
+        <% idx += 1 %>
+        <% end %>
+      <% end %>
+    </ul>
+  <% end %>
+</form>
